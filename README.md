@@ -27,7 +27,7 @@ reminder – For general reminders (auto-set date, manual time).
 git clone https://github.com/siyoell12/airdrop-auto-reminder.git
 cd airdrop-auto-reminder
 ```
-2. Install
+2. Install Dependencies
 ```bash
 npm install chalk node-notifier node-schedule
 ```
