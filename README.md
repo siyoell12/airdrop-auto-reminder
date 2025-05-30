@@ -47,5 +47,5 @@ mathematica
 The login credentials are purely for simulation purposes and are not connected to any real authentication system. Use this app for educational or personal automation only.
 
 💡 Credits
-Developed by DEASAPUTRA12 – For the true Airdrop Hunter community!
+Developed by DEASAPUTRA – For the true Airdrop Hunter community!
 ASCII Art & Terminal UX are optimized for a more enjoyable experience.
