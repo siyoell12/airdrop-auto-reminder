@@ -1,58 +1,54 @@
 🧠 Airdrop Reminder CLI – Automated Terminal-Based Scheduler
-
-🎯 A powerful and visually engaging CLI application to manage and track airdrop events with style! Built with Node.js, this script helps Airdrop Hunters stay on top of key tasks and project listings.
-
+🎯 A powerful and visually engaging CLI application to manage and track airdrop events in style! Built with Node.js, this script helps Airdrop Hunters stay organized with essential tasks and project listings.
 
 🚀 Features
+🔐 Login Authentication – Simulated terminal login with cool animation effects.
 
-🔐 Login Authentication – Simulasi login terminal dengan animasi login keren.
+🧾 Reminder Management – Easily add, view, edit, and delete reminders.
 
-🧾 Reminder Management – Tambah, lihat, edit, dan hapus pengingat dengan mudah.
+📅 Auto-Scheduling – Automatically schedules reminders using node-schedule.
 
-📅 Auto-Scheduling – Pengingat akan dijadwalkan otomatis dengan node-schedule.
+🔔 Desktop Notifications – Real-time alerts via node-notifier, complete with custom sound.
 
-🔔 Desktop Notifications – Notifikasi real-time menggunakan node-notifier, lengkap dengan suara custom.
+🎨 Stylish Terminal UI – Uses chalk for colorful outputs and hacker-like loading animations.
 
-🎨 Stylish Terminal UI – Menggunakan chalk untuk tampilan berwarna & animasi loading seperti hacker!
-
-📂 Persistent Storage – Pengingat disimpan ke file JSON (reminders.json), jadi tidak hilang meski program ditutup.
-
+📂 Persistent Storage – Reminders are saved in a reminders.json file and won’t be lost after closing the program.
 
 📌 Reminder Types
+listing – For coin/token listing reminders (manual input of date + time).
 
-listing – Untuk pengingat listing coin/token (tanggal + jam input manual)
-
-reminder – Untuk pengingat biasa (tanggal otomatis, jam manual)
+reminder – For general reminders (auto-set date, manual time).
 
 🛠️ How to Use
-
-Clone repo ini:
-```bash
-git clone https://github.com/username/airdrop-reminder-cli](https://github.com/siyoell12/airdrop-auto-reminder.git
-```
-Jalankan:
-```bash
+1. Clone the repository:
+bash
+Salin
+Edit
+git clone https://github.com/siyoell12/airdrop-auto-reminder.git
+cd airdrop-auto-reminder
+2. Run the script:
+bash
+Salin
+Edit
 node reminder.js
-```
-```bash
-Login dengan:
-
+3. Login Credentials:
+bash
+Salin
+Edit
 USERNAME: DEASAPUTRA12
 PASSWORD: DEAGANTENG
-
-📋 Sample UI
-
+📋 Sample UI Output
+mathematica
+Salin
+Edit
 ╔════╦═════════════════╦══════════╦════════╦════════════════════════════╗
-║ No ║ Tanggal & Jam   ║ Prioritas║  List  ║           Pesan            ║
+║ No ║ Date & Time     ║ Priority ║  List  ║           Message          ║
 ╠════╬═════════════════╬══════════╬════════╬════════════════════════════╣
-║ 1  ║ 2025-06-01 09:00║  TINGGI  ║ TESNET ║   Token XYZ listing KuCoin ║
+║ 1  ║ 2025-06-01 09:00║  HIGH    ║ TESTNET║ Token XYZ listing KuCoin   ║
 ╚════╩═════════════════╩══════════╩════════╩════════════════════════════╝
-```
 🔐 Disclaimer
-
-Login & password hanya simulasi dan tidak terhubung ke sistem autentikasi nyata. Gunakan aplikasi ini untuk keperluan edukasi atau automasi pribadi.
+The login credentials are purely for simulation purposes and are not connected to any real authentication system. Use this app for educational or personal automation only.
 
 💡 Credits
-
-Developed by DEASAPUTRA12 – Untuk komunitas Airdrop Hunter sejati!ASCII Art & Terminal UX dioptimalkan untuk pengalaman yang lebih seru.
-
+Developed by DEASAPUTRA12 – For the true Airdrop Hunter community!
+ASCII Art & Terminal UX are optimized for a more enjoyable experience.
