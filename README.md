@@ -21,20 +21,22 @@ reminder – For general reminders (auto-set date, manual time).
 
 🛠️ How to Use
 1. Clone the repository:
-bash
 Salin
 Edit
+```bash
 git clone https://github.com/siyoell12/airdrop-auto-reminder.git
 cd airdrop-auto-reminder
-2. Run the script:
-bash
+```
+3. Run the script:
 Salin
 Edit
+```bash
 node reminder.js
-3. Login Credentials:
-bash
+```
+5. Login Credentials:
 Salin
 Edit
+```bash
 USERNAME: DEASAPUTRA12
 PASSWORD: DEAGANTENG
 📋 Sample UI Output
@@ -48,7 +50,7 @@ Edit
 ╚════╩═════════════════╩══════════╩════════╩════════════════════════════╝
 🔐 Disclaimer
 The login credentials are purely for simulation purposes and are not connected to any real authentication system. Use this app for educational or personal automation only.
-
+```
 💡 Credits
 Developed by DEASAPUTRA12 – For the true Airdrop Hunter community!
 ASCII Art & Terminal UX are optimized for a more enjoyable experience.
