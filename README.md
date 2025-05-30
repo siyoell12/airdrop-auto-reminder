@@ -3,6 +3,7 @@
 🎯 A powerful and visually engaging CLI application to manage and track airdrop events in style! Built with Node.js, this script helps Airdrop Hunters stay organized with essential tasks and project listings.
 
 
+
 🚀 Features
 🔐 Login Authentication – Simulated terminal login with cool animation effects.
 
@@ -20,6 +21,7 @@
 listing – For coin/token listing reminders (manual input of date + time).
 
 reminder – For general reminders (auto-set date, manual time).
+
 
 
 🛠️ How to Use
