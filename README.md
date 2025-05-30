@@ -2,6 +2,7 @@
 
 🎯 A powerful and visually engaging CLI application to manage and track airdrop events with style! Built with Node.js, this script helps Airdrop Hunters stay on top of key tasks and project listings.
 
+
 🚀 Features
 
 🔐 Login Authentication – Simulasi login terminal dengan animasi login keren.
@@ -33,6 +34,7 @@ Jalankan:
 ```bash
 node reminder.js
 ```
+```bash
 Login dengan:
 
 USERNAME: DEASAPUTRA12
@@ -45,7 +47,7 @@ PASSWORD: DEAGANTENG
 ╠════╬═════════════════╬══════════╬════════╬════════════════════════════╣
 ║ 1  ║ 2025-06-01 09:00║  TINGGI  ║ TESNET ║   Token XYZ listing KuCoin ║
 ╚════╩═════════════════╩══════════╩════════╩════════════════════════════╝
-
+```
 🔐 Disclaimer
 
 Login & password hanya simulasi dan tidak terhubung ke sistem autentikasi nyata. Gunakan aplikasi ini untuk keperluan edukasi atau automasi pribadi.
