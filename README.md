@@ -1,4 +1,5 @@
 🧠 Airdrop Reminder CLI – Automated Terminal-Based Scheduler
+
 🎯 A powerful and visually engaging CLI application to manage and track airdrop events in style! Built with Node.js, this script helps Airdrop Hunters stay organized with essential tasks and project listings.
 
 
