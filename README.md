@@ -16,26 +16,6 @@
 
 📂 Persistent Storage – Pengingat disimpan ke file JSON (reminders.json), jadi tidak hilang meski program ditutup.
 
-⚙️ Technologies Used
-
-Node.js
-
-chalk
-
-node-schedule
-
-node-notifier
-
-readline
-
-fs, path
-
-🖼️ Preview
-
-🎉 CLI Animations
-🟢 Login animation with ASCII character
-🔷 Matrix-style terminal effects
-📘 Formatted table view for reminders
 
 📌 Reminder Types
 
@@ -52,7 +32,7 @@ git clone https://github.com/username/airdrop-reminder-cli](https://github.com/s
 Jalankan:
 ```bash
 node reminder.js
-```bash
+```
 Login dengan:
 
 USERNAME: DEASAPUTRA12
