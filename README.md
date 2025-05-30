@@ -54,6 +54,7 @@ mathematica
 ╚════╩═════════════════╩══════════╩════════╩════════════════════════════╝
 ```
 **Disclaimer**
+
 The login credentials are purely for simulation purposes and are not connected to any real authentication system. Use this app for educational or personal automation only.
 
 ## Buy Me a Coffee
