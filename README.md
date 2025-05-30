@@ -1,49 +1,76 @@
-# Nodepay.ai
-![Nodepay.ai](image.png)
-Nodepay.ai Bot auto ping using multyple proxy
+🧠 Airdrop Reminder CLI – Automated Terminal-Based Scheduler
 
-Register to Nodepay.ai : [https://app.nodepay.ai/register](https://app.nodepay.ai/register?ref=Od15EPpf6UBd5qR)
+🎯 A powerful and visually engaging CLI application to manage and track airdrop events with style! Built with Node.js, this script helps Airdrop Hunters stay on top of key tasks and project listings.
 
-# Features
-This script is intended for running on a server using multyple proxy.
+🚀 Features
 
-## Update 
-- each account only can connect 10 proxy
-- so the best way to farm right now is to create multy accounts
-- the script is support multy account just paste token `np_tokens.txt` each line for 1 account
-- make sure your account get **Proof of Humanhood** badge
-- Register here [https://app.nodepay.ai/](https://app.nodepay.ai/register?ref=Od15EPpf6UBd5qR)
-  
-![image](https://github.com/user-attachments/assets/6b77e7e9-7fcc-4de0-b026-ca3d1a40146e)
+🔐 Login Authentication – Simulasi login terminal dengan animasi login keren.
 
-## Obtain Required Information
+🧾 Reminder Management – Tambah, lihat, edit, dan hapus pengingat dengan mudah.
 
-1. Open the link and log in to [https://app.nodepay.ai/](https://app.nodepay.ai/register?ref=Od15EPpf6UBd5qR)
-2. Press F12 to open the console and enter the code (Ctrl + Shift + i for inspection)
-3. In the console, enter ``localStorage.getItem('np_token');``
-4. The text printed in the console is your NP_TOKEN copy and paste to `np_token.txt`
-5. put your proxy in `proxy.txt` file ex: `http://username:pass@ip:port`
+📅 Auto-Scheduling – Pengingat akan dijadwalkan otomatis dengan node-schedule.
 
-## 1. Steps to Run the Code
+🔔 Desktop Notifications – Notifikasi real-time menggunakan node-notifier, lengkap dengan suara custom.
+
+🎨 Stylish Terminal UI – Menggunakan chalk untuk tampilan berwarna & animasi loading seperti hacker!
+
+📂 Persistent Storage – Pengingat disimpan ke file JSON (reminders.json), jadi tidak hilang meski program ditutup.
+
+⚙️ Technologies Used
+
+Node.js
+
+chalk
+
+node-schedule
+
+node-notifier
+
+readline
+
+fs, path
+
+🖼️ Preview
+
+🎉 CLI Animations
+🟢 Login animation with ASCII character
+🔷 Matrix-style terminal effects
+📘 Formatted table view for reminders
+
+📌 Reminder Types
+
+listing – Untuk pengingat listing coin/token (tanggal + jam input manual)
+
+reminder – Untuk pengingat biasa (tanggal otomatis, jam manual)
+
+🛠️ How to Use
+
+Clone repo ini:
 ```bash
-git clone https://github.com/Zlkcyber/nodepay.git
-cd nodepay
+git clone https://github.com/username/airdrop-reminder-cli](https://github.com/siyoell12/airdrop-auto-reminder.git
 ```
+Jalankan:
+```bash
+node reminder.js
+```bash
+Login dengan:
 
-## 2. Install Dependencies
-```bash
-pip install -r requirements.txt
-```
-## 3. Run The Script
-```bash
-python3 main.py
-```
-## Expected Output
-If running correctly, you will see logs like the following:
-```bash
-2024-07-30 04:37:18.263 | Ping successful: {'success': True, 'code': 0, 'msg': 'Success', 'data': {'ip_score': 88}}
-2024-07-30 04:37:48.621 | Ping successful: {'success': True, 'code': 0, 'msg': 'Success', 'data': {'ip_score': 90}}
-2024-07-30 04:38:18.968 | Ping successful: {'success': True, 'code': 0, 'msg': 'Success', 'data': {'ip_score': 94}}
-2024-07-30 04:38:59.338 | Ping successful: {'success': True, 'code': 0, 'msg': 'Success', 'data': {'ip_score': 98}}
+USERNAME: DEASAPUTRA12
+PASSWORD: DEAGANTENG
 
-```
+📋 Sample UI
+
+╔════╦═════════════════╦══════════╦════════╦════════════════════════════╗
+║ No ║ Tanggal & Jam   ║ Prioritas║  List  ║           Pesan            ║
+╠════╬═════════════════╬══════════╬════════╬════════════════════════════╣
+║ 1  ║ 2025-06-01 09:00║  TINGGI  ║ TESNET ║   Token XYZ listing KuCoin ║
+╚════╩═════════════════╩══════════╩════════╩════════════════════════════╝
+
+🔐 Disclaimer
+
+Login & password hanya simulasi dan tidak terhubung ke sistem autentikasi nyata. Gunakan aplikasi ini untuk keperluan edukasi atau automasi pribadi.
+
+💡 Credits
+
+Developed by DEASAPUTRA12 – Untuk komunitas Airdrop Hunter sejati!ASCII Art & Terminal UX dioptimalkan untuk pengalaman yang lebih seru.
+
