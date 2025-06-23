@@ -169,10 +169,10 @@ node reminder.js
 Setelah menjalankan node index.js, Anda akan diarahkan melalui beberapa langkah:
 1. Login
 Anda akan diminta untuk login. Gunakan kredensial berikut:
-
+```bash
 * USERNAME: DEASAPUTRA12
 * PASSWORD: DEAGANTENG
-
+```
 2. Konfigurasi Email (Opsi 4) - PENTING!
 Ini adalah langkah paling krusial untuk memastikan notifikasi email Anda berfungsi.
 
