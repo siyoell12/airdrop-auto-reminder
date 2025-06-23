@@ -148,7 +148,20 @@ module.exports = {
   sendReminderEmail
 };
 ```
-4. Jalankan Aplikasi
+4. Buat File emailConfig.json
+Pastikan Anda memiliki file emailConfig.json di direktori yang sama dengan index.js.
+Berikut adalah isinya
+```bash
+{
+  "emailUser": "contohairdrophunter12@gmail.com",
+  "emailPass": "Enter the app email password",
+  "recipientEmail": "contohindependen12@gmail.com",
+  "smtpHost": "smtp.gmail.com",
+  "smtpPort": 587,
+  "secure": false
+}
+```
+5. Jalankan Aplikasi
 ```bash
 node reminder.js
 ```
