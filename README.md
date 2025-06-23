@@ -1,4 +1,3 @@
-🚀 Airdrop Hunter Reminder
 Aplikasi ini dirancang khusus untuk para "Airdrop Hunter" dan penggemar kripto yang ingin mengelola dan tidak melewatkan jadwal penting seperti listing token, event testnet, atau pengingat proyek DePIN. Dilengkapi dengan notifikasi desktop dan email otomatis, serta antarmuka yang interaktif!
 ✨ Fitur Unggulan
 
@@ -32,16 +31,19 @@ Aplikasi ini menggunakan beberapa pustaka Node.js yang populer:
 🚀 Cara Instalasi & Penggunaan
 Ikuti langkah-langkah di bawah ini untuk menginstal dan menjalankan Airdrop Hunter Reminder di komputer Anda.
 1. Klon Repositori
-bashDownloadCopy code Wrapgit clone https://github.com/your-username/airdrop-hunter-reminder.git
+```bash
+git clone https://github.com/your-username/airdrop-hunter-reminder.git
 cd airdrop-hunter-reminder
-(Ganti your-username/airdrop-hunter-reminder.git dengan link repositori Anda yang sebenarnya)
+```
+
 2. Instal Dependensi
-Jalankan perintah ini di terminal dari dalam folder proyek Anda:
-bashDownloadCopy code Wrapnpm install
+```bash
+npm install node-schedule node-notifier chalk nodemailer
+```
 3. Buat File emailSender.js
 Pastikan Anda memiliki file emailSender.js di direktori yang sama dengan index.js.
 Berikut adalah isinya:
-javascriptDownloadCopy code Wrap// emailSender.js
+```bash
 const nodemailer = require('nodemailer');
 const fs = require('fs');
 const path = require('path');
@@ -145,8 +147,11 @@ module.exports = {
   setEmailConfig,
   sendReminderEmail
 };
+```
 4. Jalankan Aplikasi
-bashDownloadCopy code Wrapnode index.js
+```bash
+node reminder.js
+```
 👨‍💻 Cara Menggunakan Aplikasi
 Setelah menjalankan node index.js, Anda akan diarahkan melalui beberapa langkah:
 1. Login
