@@ -160,10 +160,7 @@ Anda akan diminta untuk login. Gunakan kredensial berikut:
 * USERNAME: DEASAPUTRA12
 * PASSWORD: DEAGANTENG
 
-2. Menu Utama
-Setelah login, Anda akan melihat menu utama dengan opsi-opsi berikut:
-No.MenuFungsi1.TAMBAH PENGINGAT BARUMenambahkan pengingat baru (listing atau reminder) dengan detail waktu dan pesan.2.LIHAT SEMUA PENGINGATMenampilkan daftar semua pengingat yang tersimpan, dikategorikan dan diurutkan.3.HAPUS PENGINGATMemungkinkan Anda memilih dan menghapus pengingat yang sudah tidak relevan.4.PENGATURAN AKUN EMAILMengatur detail akun email yang akan digunakan untuk mengirim notifikasi. Wajib diatur agar notifikasi email berfungsi!5.TES PENGIRIMAN EMAILMengirim email tes untuk memverifikasi bahwa pengaturan email Anda sudah benar.6.KELUARMenutup aplikasi.
-3. Konfigurasi Email (Opsi 4) - PENTING!
+2. Konfigurasi Email (Opsi 4) - PENTING!
 Ini adalah langkah paling krusial untuk memastikan notifikasi email Anda berfungsi.
 
 * Email Pengirim: Alamat email Anda yang akan digunakan untuk mengirim notifikasi.
@@ -178,25 +175,24 @@ Contoh Gmail: Kunjungi myaccount.google.com/apppasswords setelah mengaktifkan Ve
 * Gunakan koneksi aman? (y/n): Jawab y jika menggunakan SSL/TLS (biasanya dengan Port 465), atau n jika menggunakan STARTTLS (biasanya dengan Port 587).
 
 Setelah mengisi, gunakan Opsi 5 (TES PENGIRIMAN EMAIL) untuk memastikan konfigurasi Anda benar.
-4. Menambah Pengingat (Opsi 1)
-
-* List: tesnet atau depin.
-* Tipe:
-
-listing: Untuk jadwal spesifik di masa depan (misal: 2025-12-31 23:59).
-reminder: Untuk pengingat umum (tanggal akan otomatis hari ini).
-
-
-* Tanggal (YYYY-MM-DD): Hanya untuk tipe listing. Pastikan tanggal di masa depan.
-* Jam (HH:mm): Waktu spesifik (format 24 jam, misal: 09:30 atau 14:00).
-* Pesan: Teks notifikasi yang akan muncul di desktop dan email Anda.
-* Prioritas: rendah, sedang, atau tinggi.
-
-Penting: Setelah menambah pengingat, biarkan aplikasi tetap berjalan di terminal agar notifikasi dapat terpicu pada waktunya. Jika Anda menutup aplikasi, jadwal akan berhenti dan tidak akan mengirim notifikasi.
-💡 Tips & Trik
 
 * App Password: Selalu gunakan App Password untuk keamanan. Jangan pernah menggunakan kata sandi email utama Anda langsung di aplikasi pihak ketiga.
 * Tetap Berjalan: Agar pengingat berfungsi, aplikasi ini harus tetap berjalan (misalnya, di terminal yang diminimalisir atau di background menggunakan pm2 atau sejenisnya).
 * Cek Spam: Jika Anda tidak menerima email, periksa folder spam atau junk Anda.
 * Waktu Sistem: Pastikan waktu di komputer Anda akurat dan sinkron.
 * Debug Email: Jika TES PENGIRIMAN EMAIL gagal, perhatikan pesan kesalahan di konsol. Itu akan memberikan petunjuk tentang apa yang salah (misalnya, autentikasi gagal, detail server salah).
+
+**Disclaimer:**
+
+The login credentials are purely for simulation purposes and are not connected to any real authentication system. Use this app for educational or personal automation only.
+
+## Buy Me a Coffee
+
+- **EVM:** 0x905d0505Ec007C9aDb5CF005535bfcC5E43c0B66
+- **TON:** UQCFO7vVP0N8_K4JUCfqlK6tsofOF4KEhpahEEdXBMQ-MVQL
+- **SOL:** BmqfjRHAKXUSKATuhbjPZfcNciN3J2DA1tqMgw9aGMdj
+
+Thank you for visiting this repository, don't forget to contribute in the form of follows and stars.
+If you have questions, find an issue, or have suggestions for improvement, feel free to contact me or open an *issue* in this GitHub repository.
+
+**deasaputra**
