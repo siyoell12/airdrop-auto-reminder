@@ -1,0 +1,8 @@
+{
+  "emailUser": "contohairdrophunter12@gmail.com",
+  "emailPass": "Enter the app email password",
+  "recipientEmail": "contohindependen12@gmail.com",
+  "smtpHost": "smtp.gmail.com",
+  "smtpPort": 587,
+  "secure": false
+}
