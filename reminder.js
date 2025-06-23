@@ -4,9 +4,10 @@ const readline = require('readline');
 const schedule = require('node-schedule');
 const notifier = require('node-notifier');
 const chalk = require('chalk');
+const emailSender = require('./emailSender'); // Pastikan file ini ada dan berfungsi
 
 const REMINDER_FILE = path.join(__dirname, 'reminders.json');
-const SOUND_FILE = path.join(__dirname, 'alert.wav');
+const SOUND_FILE = path.join(__dirname, 'alert.wav'); // Perlu diperhatikan penggunaan file suara ini
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -95,8 +96,6 @@ async function animeLoginLoading(message = 'Memeriksa identitas...', duration = 
   console.clear();
 }
 
-
-
 async function animeHackerLoading(message = 'Memulai program...', duration = 3000) {
   const chars = '01';
   const colors = [chalk.red, chalk.yellow, chalk.green, chalk.cyan, chalk.blue, chalk.magenta];
@@ -114,8 +113,6 @@ async function animeHackerLoading(message = 'Memulai program...', duration = 300
   process.stdout.write('\r' + ' '.repeat(50) + '\r');
 }
 
-
-
 async function animeVolumeMenuLoading(message = 'Loading...', duration = 3000) {
   const chars = '01';
   const colors = [chalk.red, chalk.yellow, chalk.green, chalk.cyan, chalk.blue, chalk.magenta];
@@ -132,7 +129,6 @@ async function animeVolumeMenuLoading(message = 'Loading...', duration = 3000) {
   }
   process.stdout.write('\r' + ' '.repeat(50) + '\r');
 }
-
 
 async function login() {
   let username = '', password = '';
@@ -165,37 +161,113 @@ function loadReminders() {
 }
 
 function saveReminders() {
-  fs.writeFileSync(REMINDER_FILE, JSON.stringify(reminders, null, 2), 'utf-8');
+  fs.writeFileSync(REMINDER_FILE, JSON.stringify(reminders, null, 2));
 }
 
-function scheduleAllReminders() {
-  schedule.gracefulShutdown();
-  Object.keys(reminders).forEach(list => {
-    reminders[list].forEach(r => scheduleReminder(list, r));
-  });
-}
 
 function scheduleReminder(list, reminder) {
   const dateObj = new Date(`${reminder.date}T${reminder.time}:00`);
-  if (dateObj < new Date()) return;
-  schedule.scheduleJob(dateObj, () => {
+  
+  // Hanya jadwalkan jika tanggal/waktu pengingat ada di masa depan
+  if (dateObj < new Date()) {
+    // console.log(chalk.gray(`[INFO] Melewatkan pengingat lama: ${reminder.message}`)); // Opsional: Untuk debug
+    return; 
+  }
+  
+  schedule.scheduleJob(dateObj, async () => {
     console.clear();
-    console.log(`\n🔔 [${list.toUpperCase()}] ${reminder.date} ${reminder.time} - ${reminder.message}`);
+    const message = `
+🔔 [${list.toUpperCase()}] ${reminder.type.toUpperCase()}
+Tanggal: ${reminder.date}
+Waktu: ${reminder.time}
+Prioritas: ${reminder.priority.toUpperCase()}
+Pesan: ${reminder.message}
+    `.trim();
+
+    console.log(chalk.yellow(message));
+    
+    // Notifikasi Desktop Otomatis
     notifier.notify({
-      title: `Pengingat [${list}]`,
+      title: `${reminder.type.toUpperCase()} [${list.toUpperCase()}]`,
       message: reminder.message,
-      sound: SOUND_FILE
+      sound: true 
     });
+
+    // Notifikasi Email Otomatis
+    try {
+      await emailSender.sendReminderEmail(
+        `${reminder.type.toUpperCase()} [${list.toUpperCase()}]`,
+        message,
+        'Airdrop Hunter Reminder' 
+      );
+      console.log(chalk.green('✅ Notifikasi email terkirim!'));
+    } catch (error) {
+      console.error(chalk.red('❌ Gagal mengirim email:', error.message));
+    }
+  
   });
 }
 
-function center(text, width) {
-  text = String(text || '');
-  if (text.length >= width) return text.slice(0, width);
-  const pad = width - text.length;
-  const left = Math.floor(pad / 2);
-  const right = pad - left;
-  return ' '.repeat(left) + text + ' '.repeat(right);
+function scheduleAllReminders() {
+  schedule.gracefulShutdown(); // Hentikan semua jadwal yang ada untuk menghindari duplikasi
+  Object.entries(reminders).forEach(([list, items]) => {
+    items.forEach(reminder => scheduleReminder(list, reminder));
+  });
+  console.log(chalk.cyan('🚀 Semua pengingat telah dijadwalkan ulang.'));
+}
+
+async function addReminder() {
+  console.clear();
+  console.log('\n📋 Tambah Pengingat Baru'); // Nama menu yang lebih baik
+  let list = '';
+  while (!['tesnet', 'depin'].includes(list)) {
+    list = (await ask('List (tesnet/depin): ')).trim().toLowerCase();
+  }
+
+  let type = '';
+  while (!['listing', 'reminder'].includes(type)) {
+    type = (await ask('Tipe (listing/reminder): ')).trim().toLowerCase();
+  }
+
+  let date = '';
+  if (type === 'listing') {
+    do {
+      date = (await ask('Tanggal (YYYY-MM-DD): ')).trim();
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+        console.log(chalk.red('❌ Format tanggal salah. Contoh: 2025-12-31'));
+        date = '';
+      }
+    } while (!date);
+  } else {
+    const now = new Date();
+    date = now.toISOString().split('T')[0];
+    console.log(chalk.yellow(`Tanggal otomatis diisi: ${date} (Untuk pengingat umum, biasanya hari ini)`));
+  }
+
+  let time = '';
+  do {
+    time = (await ask('Jam (HH:mm): ')).trim();
+    if (!/^\d{2}:\d{2}$/.test(time)) {
+      console.log(chalk.red('❌ Format jam salah. Contoh: 09:30'));
+      time = '';
+    }
+  } while (!time);
+
+  const msg = await ask('Pesan: ');
+  let prio = '';
+  while (!['rendah', 'sedang', 'tinggi'].includes(prio)) {
+    prio = (await ask('Prioritas (rendah/sedang/tinggi): ')).trim().toLowerCase();
+  }
+
+  const reminder = { date, time, message: msg, priority: prio, type };
+  reminders[list].push(reminder);
+  saveReminders();
+  
+  
+  scheduleAllReminders(); 
+
+  console.log(chalk.green('✅ Pengingat dibuat dan telah dijadwalkan secara otomatis!'));
+  await ask('Enter untuk kembali...');
 }
 
 function showTable(title, data, listName) {
@@ -221,7 +293,7 @@ function showTable(title, data, listName) {
 
 async function showAllReminders() {
   console.clear();
-  console.log('\n📋 Semua Pengingat\n');
+  console.log('\n📋 Semua Pengingat Tersimpan\n'); 
   showTable('TESNET', reminders.tesnet, 'TESNET');
   showTable('DEPIN', reminders.depin, 'DEPIN');
 
@@ -233,16 +305,16 @@ async function showAllReminders() {
   const listings = all.filter(r=>r.type==='listing');
   const basics = all.filter(r=>r.type==='reminder');
 
-  console.log('\n📅 Jadwal Listing:');
+  console.log('\n📅 Jadwal Listing (Otomatis Dinotifikasi):');
   if(!listings.length){
     console.log(chalk.red('Tidak ada jadwal listing.'));
   }else{
     listings.forEach((r,i)=>console.log(`${i+1}. ${r.date} ${r.time} [${r.list.toUpperCase()}] ${r.message}`));
   }
 
-  console.log('\n🔔 Pengingat Biasa:');
+  console.log('\n🔔 Pengingat Umum (Otomatis Dinotifikasi):');
   if(!basics.length){
-    console.log(chalk.red('Tidak ada pengingat biasa.'));
+    console.log(chalk.red('Tidak ada pengingat umum.'));
   }else{
     basics.forEach((r,i)=>console.log(`${i+1}. ${r.date} ${r.time} [${r.list.toUpperCase()}] ${r.message}`));
   }
@@ -250,109 +322,9 @@ async function showAllReminders() {
   await ask('Enter untuk kembali...');
 }
 
-async function addReminder() {
-  console.clear();
-  console.log('\n📋 Tambah Pengingat');
-  let list='';
-  while(!['tesnet','depin'].includes(list))list=(await ask('List (tesnet/depin): ')).trim().toLowerCase();
-
-  let type='';
-  while(!['listing','reminder'].includes(type))type=(await ask('Tipe (listing/reminder): ')).trim().toLowerCase();
-
-  let date='';
-  if(type==='listing'){
-    do {
-      date = (await ask('Tanggal (YYYY-MM-DD): ')).trim();
-      if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
-        console.log(chalk.red('❌ Format tanggal salah. Contoh: 2025-12-31'));
-        date = '';
-      }
-    } while (!date);
-  }else{
-    const now = new Date();
-    date = now.toISOString().split('T')[0];
-    console.log(chalk.yellow(`Tanggal otomatis diisi: ${date}`));
-  }
-
-  let time='';
-  do {
-    time = (await ask('Jam (HH:mm): ')).trim();
-    if (!/^\d{2}:\d{2}$/.test(time)) {
-      console.log(chalk.red('❌ Format jam salah. Contoh: 09:30'));
-      time = '';
-    }
-  } while (!time);
-
-  const msg=await ask('Pesan: ');
-  let prio='';
-  while(!['rendah','sedang','tinggi'].includes(prio))prio=(await ask('Prioritas (rendah/sedang/tinggi): ')).trim().toLowerCase();
-  const r={date,time,message:msg,priority:prio,type};
-  reminders[list].push(r);
-  saveReminders();
-  scheduleAllReminders();
-  console.log(chalk.green('✅ Pengingat dibuat!'));
-  await ask('Enter untuk kembali...');
-}
-
-async function editReminder() {
-  console.clear();
-  console.log('\n🔧 Edit Pengingat');
-
-  const all = [
-    ...reminders.tesnet.map((r, i) => ({ ...r, list: 'tesnet', index: i })),
-    ...reminders.depin.map((r, i) => ({ ...r, list: 'depin', index: i }))
-  ];
-
-  if (all.length === 0) {
-    console.log(chalk.red('Tidak ada pengingat untuk diedit.'));
-    await ask('Enter untuk kembali...');
-    return;
-  }
-
-  all.forEach((r, i) => {
-    console.log(`${i + 1}. [${r.list.toUpperCase()}] ${r.date} ${r.time} - ${r.message}`);
-  });
-
-  let num = 0;
-  while (num < 1 || num > all.length) {
-    num = parseInt(await ask('\nPilih nomor pengingat yang ingin diedit: '), 10);
-    if (isNaN(num) || num < 1 || num > all.length) {
-      console.log(chalk.red('❌ Pilihan tidak valid.'));
-    }
-  }
-
-  const selected = all[num - 1];
-
-  console.log(chalk.yellow(`\nEdit pengingat: [${selected.list.toUpperCase()}] ${selected.date} ${selected.time} - ${selected.message}`));
-
-  const newDate = await ask(`Tanggal baru (YYYY-MM-DD, kosong untuk tidak diubah): `);
-  const newTime = await ask(`Jam baru (HH:mm, kosong untuk tidak diubah): `);
-  const newMsg = await ask(`Pesan baru (kosong untuk tidak diubah): `);
-  let newPrio = '';
-  while (newPrio !== '' && !['rendah', 'sedang', 'tinggi'].includes(newPrio)) {
-    newPrio = (await ask('Prioritas baru (rendah/sedang/tinggi, kosong untuk tidak diubah): ')).trim().toLowerCase();
-    if (newPrio !== '' && !['rendah', 'sedang', 'tinggi'].includes(newPrio)) {
-      console.log(chalk.red('❌ Pilihan prioritas tidak valid.'));
-    }
-  }
-
-  if (newDate) selected.date = newDate;
-  if (newTime) selected.time = newTime;
-  if (newMsg) selected.message = newMsg;
-  if (newPrio) selected.priority = newPrio;
-
-  reminders[selected.list][selected.index] = selected;
-  saveReminders();
-  scheduleAllReminders();
-
-  console.log(chalk.green('\n✅ Pengingat berhasil diperbarui!'));
-  await ask('Enter untuk kembali...');
-}
-
-
 async function deleteReminder() {
   console.clear();
-  console.log('\n🗑️ Hapus Pengingat');
+  console.log('\n🗑️ Hapus Pengingat'); 
 
   const all = [
     ...reminders.tesnet.map((r, i) => ({ ...r, list: 'tesnet', index: i })),
@@ -380,21 +352,84 @@ async function deleteReminder() {
   const selected = all[num - 1];
   reminders[selected.list].splice(selected.index, 1);
   saveReminders();
-  scheduleAllReminders();
+  
+  scheduleAllReminders(); 
 
-  console.log(chalk.green('\n✅ Pengingat berhasil dihapus!'));
+  console.log(chalk.green('\n✅ Pengingat berhasil dihapus dan jadwal diperbarui!'));
   await ask('Enter untuk kembali...');
 }
 
-async function ask(q) {
-  return new Promise(r => rl.question(q, r));
+async function emailSettings() {
+  console.clear();
+  console.log(chalk.cyan('\n⚙️ PENGATURAN AKUN EMAIL\n')); 
+
+  const currentConfig = emailSender.getEmailConfig();
+  console.log('Konfigurasi saat ini:');
+  console.log(`Email Pengirim: ${currentConfig.emailUser || 'Belum diatur'}`);
+  console.log(`Email Penerima: ${currentConfig.recipientEmail || 'Belum diatur'}`);
+  console.log(`SMTP Host: ${currentConfig.smtpHost || 'Belum diatur'}`);
+  console.log(`SMTP Port: ${currentConfig.smtpPort || 'Belum diatur'}`);
+  console.log(`Koneksi Aman: ${currentConfig.secure ? 'Ya' : 'Tidak'}\n`);
+
+  console.log(chalk.yellow('Masukkan konfigurasi baru (kosongkan untuk tidak mengubah):'));
+  console.log(chalk.red('!!! PENTING: Gunakan App Password, bukan password email utama !!!\n'));
+
+  const emailUser = await ask('Email Pengirim: ');
+  const emailPass = await ask('App Password: ');
+  const recipientEmail = await ask('Email Penerima: ');
+  const smtpHost = await ask('SMTP Host (e.g., smtp.gmail.com): ');
+  const smtpPort = parseInt(await ask('SMTP Port (587 untuk TLS, 465 untuk SSL): '));
+  const secure = (await ask('Gunakan koneksi aman? (y/n): ')).toLowerCase() === 'y';
+
+  const config = {
+    emailUser: emailUser || currentConfig.emailUser,
+    emailPass: emailPass || currentConfig.emailPass,
+    recipientEmail: recipientEmail || currentConfig.recipientEmail,
+    smtpHost: smtpHost || currentConfig.smtpHost,
+    smtpPort: smtpPort || currentConfig.smtpPort,
+    secure
+  };
+
+  emailSender.setEmailConfig(config);
+  emailSender.saveEmailConfig();
+
+  console.log(chalk.green('\n✅ Pengaturan email berhasil disimpan!'));
+  await ask('Enter untuk kembali...');
+}
+
+async function testEmail() {
+  console.clear();
+  console.log(chalk.cyan('\n📧 TES PENGIRIMAN EMAIL\n')); 
+
+  try {
+    await emailSender.sendReminderEmail(
+      'Test Email dari Airdrop Independen',
+      'Ini adalah email tes otomatis. Jika Anda menerima ini, berarti konfigurasi email Anda berhasil!',
+      'Airdrop Hunter Reminder' 
+    );
+    console.log(chalk.green('\n✅ Tes email berhasil dikirim! Silakan periksa kotak masuk Anda.'));
+  } catch (error) {
+    console.error(chalk.red('\n❌ Gagal mengirim email tes:', error.message));
+    console.error(chalk.red('Pastikan konfigurasi email Anda benar dan "App Password" sudah diatur.'));
+  }
+
+  await ask('\nEnter untuk kembali...');
+}
+
+function center(text, width) {
+  text = String(text || '');
+  if (text.length >= width) return text.slice(0, width);
+  const pad = width - text.length;
+  const left = Math.floor(pad / 2);
+  const right = pad - left;
+  return ' '.repeat(left) + text + ' '.repeat(right);
 }
 
 async function mainMenu() {
   while (true) {
     console.clear();
-    console.log(chalk.cyanBright('\n\n'));
-
+    banner();
+    
     const wNo = 4, wMenu = 40;
     const top = "╔" + "═".repeat(wNo) + "╦" + "═".repeat(wMenu) + "╗";
     const head = "╠" + "═".repeat(wNo) + "╬" + "═".repeat(wMenu) + "╣";
@@ -403,46 +438,63 @@ async function mainMenu() {
     console.log(chalk.magenta(top));
     console.log(chalk.magenta("║" + center("No", wNo) + "║" + center("Menu", wMenu) + "║"));
     console.log(chalk.magenta(head));
-    console.log("║" + center("1", wNo) + "║" + center("Tambah Pengingat", wMenu) + "║");
+    console.log("║" + center("1", wNo) + "║" + center("TAMBAH PENGINGAT BARU", wMenu) + "║"); // Nama baru
     console.log(chalk.magenta(head));
-    console.log("║" + center("2", wNo) + "║" + center("Lihat Semua Pengingat", wMenu) + "║");
+    console.log("║" + center("2", wNo) + "║" + center("LIHAT SEMUA PENGINGAT", wMenu) + "║"); // Nama baru
     console.log(chalk.magenta(head));
-    console.log("║" + center("3", wNo) + "║" + center("Edit Pengingat", wMenu) + "║");
+    console.log("║" + center("3", wNo) + "║" + center("HAPUS PENGINGAT", wMenu) + "║"); // Nama baru
     console.log(chalk.magenta(head));
-    console.log("║" + center("4", wNo) + "║" + center("Hapus Pengingat", wMenu) + "║");
+    console.log("║" + center("4", wNo) + "║" + center("PENGATURAN AKUN EMAIL", wMenu) + "║"); // Nama baru
     console.log(chalk.magenta(head));
-    console.log("║" + center("5", wNo) + "║" + center("Keluar", wMenu) + "║");
+    console.log("║" + center("5", wNo) + "║" + center("TES PENGIRIMAN EMAIL", wMenu) + "║"); // Nama baru
+    console.log(chalk.magenta(head));
+    console.log("║" + center("6", wNo) + "║" + center("KELUAR", wMenu) + "║"); // Nama baru
     console.log(chalk.magenta(bot));
 
-    const c = await ask('Pilih menu (1-5): ');
-    if (c === '1') {
-      await animeVolumeMenuLoading('Menuju Tambah Pengingat...');
-      await addReminder();
-    } else if (c === '2') {
-      await animeVolumeMenuLoading('Menampilkan Pengingat...');
-      await showAllReminders();
-    } else if (c === '3') {
-      await animeVolumeMenuLoading('Menuju Edit...');
-      await editReminder();
-    } else if (c === '4') {
-      await animeVolumeMenuLoading('Menuju Hapus...');
-      await deleteReminder();
-    } else if (c === '5') {
-      console.log(chalk.green('Sampai jumpa!'));
-      rl.close();
-      process.exit(0);
-    } else {
-      console.log(chalk.red('❌ Pilihan tidak valid.'));
-      await new Promise(r => setTimeout(r, 1500));
+    const choice = await ask('\nPilih menu (1-6): ');
+
+    switch (choice) {
+      case '1':
+        await animeVolumeMenuLoading('Menuju Tambah Pengingat...');
+        await addReminder();
+        break;
+      case '2':
+        await animeVolumeMenuLoading('Menampilkan Pengingat...');
+        await showAllReminders();
+        break;
+      case '3':
+        await animeVolumeMenuLoading('Menuju Hapus Pengingat...');
+        await deleteReminder();
+        break;
+      case '4':
+        await animeVolumeMenuLoading('Menuju Pengaturan Email...');
+        await emailSettings();
+        break;
+      case '5':
+        await animeVolumeMenuLoading('Mengirim Tes Email...');
+        await testEmail();
+        break;
+      case '6':
+        console.log(chalk.green('\nTerima kasih telah menggunakan Airdrop Hunter Reminder! 👋'));
+        rl.close();
+        process.exit(0);
+      default:
+        console.log(chalk.red('\nPilihan tidak valid!'));
+        await new Promise(r => setTimeout(r, 1500));
     }
   }
 }
 
+function ask(question) {
+  return new Promise(resolve => rl.question(question, resolve));
+}
 
-(async()=>{
-  await animeHackerLoading('Memulai program...');
-  loadReminders();
-  scheduleAllReminders();
+(async () => {
+  console.clear();
+  await animeHackerLoading('Memulai program dan menjadwalkan pengingat otomatis...');
+  loadReminders(); 
+  emailSender.loadEmailConfig(); 
+  scheduleAllReminders(); 
   await login();
   mainMenu();
 })();
