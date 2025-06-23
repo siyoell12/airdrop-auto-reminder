@@ -182,10 +182,6 @@ Setelah mengisi, gunakan Opsi 5 (TES PENGIRIMAN EMAIL) untuk memastikan konfigur
 * Waktu Sistem: Pastikan waktu di komputer Anda akurat dan sinkron.
 * Debug Email: Jika TES PENGIRIMAN EMAIL gagal, perhatikan pesan kesalahan di konsol. Itu akan memberikan petunjuk tentang apa yang salah (misalnya, autentikasi gagal, detail server salah).
 
-**Disclaimer:**
-
-The login credentials are purely for simulation purposes and are not connected to any real authentication system. Use this app for educational or personal automation only.
-
 ## Buy Me a Coffee
 
 - **EVM:** 0x905d0505Ec007C9aDb5CF005535bfcC5E43c0B66
