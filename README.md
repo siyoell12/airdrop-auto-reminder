@@ -32,7 +32,7 @@ Aplikasi ini menggunakan beberapa pustaka Node.js yang populer:
 Ikuti langkah-langkah di bawah ini untuk menginstal dan menjalankan Airdrop Hunter Reminder di komputer Anda.
 1. Klon Repositori
 ```bash
-git clone https://github.com/your-username/airdrop-hunter-reminder.git
+git clone https://github.com/siyoell12/airdrop-hunter-reminder.git
 cd airdrop-hunter-reminder
 ```
 
