@@ -38,7 +38,7 @@ cd airdrop-hunter-reminder
 
 2. Instal Dependensi
 ```bash
-npm install node-schedule node-notifier chalk nodemailer
+npm install
 ```
 3. Buat File emailSender.js
 Pastikan Anda memiliki file emailSender.js di direktori yang sama dengan index.js.
